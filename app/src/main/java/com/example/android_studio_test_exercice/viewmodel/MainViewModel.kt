@@ -1,75 +1,105 @@
 package com.example.android_studio_test_exercice.viewmodel
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+
 import androidx.compose.ui.state.ToggleableState
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class MainViewModel: ViewModel {
-    // Atributs
-    private val _estatSwitch: MutableLiveData<Boolean>
-    public val estatSwitch: LiveData<Boolean>
+class MainViewModel : ViewModel() {
 
-    private val _esVegetaria: MutableLiveData<Boolean>
-    public val esVegetaria: LiveData<Boolean>
+    private val _estatSwitch = MutableLiveData<Boolean>(true)
+    val estatSwitch: LiveData<Boolean> = _estatSwitch
 
-    private val _esVega: MutableLiveData<Boolean>
-    public val esVega: LiveData<Boolean>
+    private val _esVegetaria = MutableLiveData<Boolean>(false)
+    val esVegetaria: LiveData<Boolean> = _esVegetaria
 
-    private val _esCarnivor: MutableLiveData<Boolean>
-    public val esCarnivor: LiveData<Boolean>
+    private val _esVega = MutableLiveData<Boolean>(false)
+    val esVega: LiveData<Boolean> = _esVega
 
-    private val _triStateStatus: MutableLiveData<ToggleableState>
-    public val triStateStatus: LiveData<ToggleableState>
+    private val _esCarnivor = MutableLiveData<Boolean>(true)
+    val esCarnivor: LiveData<Boolean> = _esCarnivor
 
-    private val _selectedOption: MutableLiveData<String>
-    public val selectedOption: LiveData<String>
+    private val _triStateStatus = MutableLiveData<ToggleableState>(ToggleableState.Off)
+    val triStateStatus: LiveData<ToggleableState> = _triStateStatus
 
-    /**
-     * Constructor de la classe HelloViewModel
-     * que inicialitzen els atributs
-     */
-    constructor() : super() {
-        this._estatSwitch = MutableLiveData<Boolean>(true)
-        this.estatSwitch = this._estatSwitch
+    private val _selectedOption = MutableLiveData<String>("Messi")
+    val selectedOption: LiveData<String> = _selectedOption
 
-        this._esVegetaria = MutableLiveData<Boolean>(false)
-        this.esVegetaria = this._esVegetaria
+    private val _sliderValue = MutableLiveData<Float>(0f)
+    val sliderValue: LiveData<Float> = _sliderValue
 
-        this._esVega = MutableLiveData<Boolean>(false)
-        this.esVega = this._esVega
+    private val _expanded = MutableLiveData<Boolean>(false)
+    val expanded: LiveData<Boolean> = _expanded
 
-        this._esCarnivor = MutableLiveData<Boolean>(true)
-        this.esCarnivor = this._esCarnivor
+    private val _selectedItem = MutableLiveData<String>("Opció A")
+    val selectedItem: LiveData<String> = _selectedItem
 
-        this._triStateStatus = MutableLiveData<ToggleableState>(ToggleableState.Off)
-        this.triStateStatus = this._triStateStatus
+    private val _searchText = MutableLiveData<String>("")
+    val searchText: LiveData<String> = _searchText
 
-        this._selectedOption = MutableLiveData<String>("Messi")
-        this.selectedOption = this._selectedOption
+    private val _showSnackbar = MutableLiveData<Boolean>(false)
+    val showSnackbar: LiveData<Boolean> = _showSnackbar
+
+    private val _toggleState = MutableLiveData<Boolean>(false)
+    val toggleState: LiveData<Boolean> = _toggleState
+
+    // --- Mètodes existents ---
+
+    fun toggleEstatSwitch() {
+        _estatSwitch.value = !(_estatSwitch.value!!)
     }
 
-    fun toggleEstatSwitch(){
-        this._estatSwitch.value = !(this._estatSwitch.value)!!
+    fun toggleEsCarnivor() {
+        _esCarnivor.value = !(_esCarnivor.value!!)
     }
 
-    fun toggleEsCarnivor(){
-        this._esCarnivor.value = !(this._esCarnivor.value)!!
-    }
-
-    fun toggleTriStateStatus(){
-        when(this._triStateStatus.value){
-            ToggleableState.On -> setTriStateStatus(ToggleableState.Off)
-            ToggleableState.Off -> setTriStateStatus(ToggleableState.Indeterminate)
+    fun toggleTriStateStatus() {
+        when (_triStateStatus.value) {
+            ToggleableState.On          -> setTriStateStatus(ToggleableState.Off)
+            ToggleableState.Off         -> setTriStateStatus(ToggleableState.Indeterminate)
             ToggleableState.Indeterminate -> setTriStateStatus(ToggleableState.On)
-            null -> setTriStateStatus(ToggleableState.On)
+            null                        -> setTriStateStatus(ToggleableState.On)
         }
     }
 
-    private fun setTriStateStatus(triState: ToggleableState){
-        this._triStateStatus.value = triState
+    private fun setTriStateStatus(triState: ToggleableState) {
+        _triStateStatus.value = triState
+    }
+
+
+    fun toggleEsVegetaria() {
+        _esVegetaria.value = !(_esVegetaria.value!!)
+    }
+
+    fun toggleEsVega() {
+        _esVega.value = !(_esVega.value!!)
+    }
+
+    fun setSelectedOption(option: String) {
+        _selectedOption.value = option
+    }
+
+    fun setSliderValue(value: Float) {
+        _sliderValue.value = value
+    }
+
+    fun setExpanded(value: Boolean) {
+        _expanded.value = value
+    }
+
+    fun setSelectedItem(item: String) {
+        _selectedItem.value = item
+    }
+
+    fun setSearchText(text: String) {
+        _searchText.value = text
+    }
+
+    fun performSearch() {
+        _showSnackbar.value = true
+    }
+
+    fun toggle() {
+        _toggleState.value = !(_toggleState.value!!)
     }
 }
